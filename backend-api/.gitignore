@@ -1,0 +1,6 @@
+.run
+.idea
+.vscode
+vendor
+bin/
+.DS_Store

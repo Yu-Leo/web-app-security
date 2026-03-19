@@ -1,0 +1,63 @@
+:root {
+    color-scheme: light;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+    color: #1c1f23;
+    background-color: #f6f7f9;
+    --was-accent: #198754;
+    --was-accent-dark: #146c43;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+a {
+    color: var(--was-accent);
+}
+
+a:hover {
+    color: var(--was-accent-dark);
+}
+
+.btn-primary {
+    background-color: var(--was-accent);
+    border-color: var(--was-accent);
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: var(--was-accent-dark);
+    border-color: var(--was-accent-dark);
+}
+
+.page-item.active .page-link {
+    background-color: var(--was-accent);
+    border-color: var(--was-accent);
+}
+
+.page-link {
+    color: var(--was-accent);
+}
+
+.page-link:hover {
+    color: var(--was-accent-dark);
+}
+
+.form-check-input:checked {
+    background-color: var(--was-accent);
+    border-color: var(--was-accent);
+}
+
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+    border-color: var(--was-accent);
+    box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);
+}

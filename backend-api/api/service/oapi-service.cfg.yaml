@@ -1,0 +1,5 @@
+output: internal/generated/service/api.gen.go
+package: service
+generate:
+  gin-server: true
+  models: true

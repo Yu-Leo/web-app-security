@@ -1,0 +1,1350 @@
+openapi: 3.0.3
+info:
+  title: WAS API
+  version: "1.0.0"
+
+tags:
+  - name: resources
+    description: Resource management
+  - name: security-profiles
+    description: Security profile management
+  - name: security-rules
+    description: Security rule management
+  - name: traffic-profiles
+    description: Traffic profile management
+  - name: traffic-rules
+    description: Traffic rule management
+  - name: ml-models
+    description: ML model management
+  - name: request-logs
+    description: Request logs
+  - name: event-logs
+    description: Event logs
+
+paths:
+  /_info:
+    get:
+      summary: Service info
+      responses:
+        "200":
+          description: OK
+  /api/v1/resources:
+    get:
+      operationId: ListResources
+      tags:
+        - resources
+      summary: List resources
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Resource"
+    post:
+      operationId: CreateResource
+      tags:
+        - resources
+      summary: Create resource
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResourceCreate"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Resource"
+  /api/v1/resources/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+    get:
+      operationId: GetResource
+      tags:
+        - resources
+      summary: Get resource by id
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Resource"
+        "404":
+          description: Not found
+    put:
+      operationId: UpdateResource
+      tags:
+        - resources
+      summary: Update resource by id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResourceUpdate"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Resource"
+        "404":
+          description: Not found
+    delete:
+      operationId: DeleteResource
+      tags:
+        - resources
+      summary: Delete resource by id
+      responses:
+        "204":
+          description: No content
+        "404":
+          description: Not found
+  /api/v1/security-profiles:
+    get:
+      operationId: ListSecurityProfiles
+      tags:
+        - security-profiles
+      summary: List security profiles
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SecurityProfile"
+    post:
+      operationId: CreateSecurityProfile
+      tags:
+        - security-profiles
+      summary: Create security profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SecurityProfileCreate"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SecurityProfile"
+  /api/v1/security-profiles/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+    get:
+      operationId: GetSecurityProfile
+      tags:
+        - security-profiles
+      summary: Get security profile by id
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SecurityProfile"
+        "404":
+          description: Not found
+    put:
+      operationId: UpdateSecurityProfile
+      tags:
+        - security-profiles
+      summary: Update security profile by id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SecurityProfileUpdate"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SecurityProfile"
+        "404":
+          description: Not found
+    delete:
+      operationId: DeleteSecurityProfile
+      tags:
+        - security-profiles
+      summary: Delete security profile by id
+      responses:
+        "204":
+          description: No content
+        "404":
+          description: Not found
+  /api/v1/security-rules:
+    get:
+      operationId: ListSecurityRules
+      tags:
+        - security-rules
+      summary: List security rules
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SecurityRule"
+    post:
+      operationId: CreateSecurityRule
+      tags:
+        - security-rules
+      summary: Create security rule
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SecurityRuleCreate"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SecurityRule"
+  /api/v1/security-rules/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+    get:
+      operationId: GetSecurityRule
+      tags:
+        - security-rules
+      summary: Get security rule by id
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SecurityRule"
+        "404":
+          description: Not found
+    put:
+      operationId: UpdateSecurityRule
+      tags:
+        - security-rules
+      summary: Update security rule by id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SecurityRuleUpdate"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SecurityRule"
+        "404":
+          description: Not found
+    delete:
+      operationId: DeleteSecurityRule
+      tags:
+        - security-rules
+      summary: Delete security rule by id
+      responses:
+        "204":
+          description: No content
+        "404":
+          description: Not found
+  /api/v1/traffic-profiles:
+    get:
+      operationId: ListTrafficProfiles
+      tags:
+        - traffic-profiles
+      summary: List traffic profiles
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TrafficProfile"
+    post:
+      operationId: CreateTrafficProfile
+      tags:
+        - traffic-profiles
+      summary: Create traffic profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TrafficProfileCreate"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrafficProfile"
+  /api/v1/traffic-profiles/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+    get:
+      operationId: GetTrafficProfile
+      tags:
+        - traffic-profiles
+      summary: Get traffic profile by id
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrafficProfile"
+        "404":
+          description: Not found
+    put:
+      operationId: UpdateTrafficProfile
+      tags:
+        - traffic-profiles
+      summary: Update traffic profile by id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TrafficProfileUpdate"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrafficProfile"
+        "404":
+          description: Not found
+    delete:
+      operationId: DeleteTrafficProfile
+      tags:
+        - traffic-profiles
+      summary: Delete traffic profile by id
+      responses:
+        "204":
+          description: No content
+        "404":
+          description: Not found
+  /api/v1/traffic-rules:
+    get:
+      operationId: ListTrafficRules
+      tags:
+        - traffic-rules
+      summary: List traffic rules
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TrafficRule"
+    post:
+      operationId: CreateTrafficRule
+      tags:
+        - traffic-rules
+      summary: Create traffic rule
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TrafficRuleCreate"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrafficRule"
+  /api/v1/traffic-rules/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+    get:
+      operationId: GetTrafficRule
+      tags:
+        - traffic-rules
+      summary: Get traffic rule by id
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrafficRule"
+        "404":
+          description: Not found
+    put:
+      operationId: UpdateTrafficRule
+      tags:
+        - traffic-rules
+      summary: Update traffic rule by id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TrafficRuleUpdate"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrafficRule"
+        "404":
+          description: Not found
+    delete:
+      operationId: DeleteTrafficRule
+      tags:
+        - traffic-rules
+      summary: Delete traffic rule by id
+      responses:
+        "204":
+          description: No content
+        "404":
+          description: Not found
+  /api/v1/ml-models:
+    get:
+      operationId: ListMLModels
+      tags:
+        - ml-models
+      summary: List ML models
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MLModel"
+    post:
+      operationId: CreateMLModel
+      tags:
+        - ml-models
+      summary: Create ML model
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MLModelCreate"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MLModel"
+  /api/v1/ml-models/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+    get:
+      operationId: GetMLModel
+      tags:
+        - ml-models
+      summary: Get ML model by id
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MLModel"
+        "404":
+          description: Not found
+    put:
+      operationId: UpdateMLModel
+      tags:
+        - ml-models
+      summary: Update ML model by id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MLModelUpdate"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MLModel"
+        "404":
+          description: Not found
+    delete:
+      operationId: DeleteMLModel
+      tags:
+        - ml-models
+      summary: Delete ML model by id
+      responses:
+        "204":
+          description: No content
+        "404":
+          description: Not found
+  /api/v1/request-logs:
+    get:
+      operationId: ListRequestLogs
+      tags:
+        - request-logs
+      summary: List request logs
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/RequestLog"
+  /api/v1/request-logs/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+    get:
+      operationId: GetRequestLog
+      tags:
+        - request-logs
+      summary: Get request log by id
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RequestLog"
+        "404":
+          description: Not found
+  /api/v1/event-logs:
+    get:
+      operationId: ListEventLogs
+      tags:
+        - event-logs
+      summary: List event logs
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/EventLog"
+  /api/v1/event-logs/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+    get:
+      operationId: GetEventLog
+      tags:
+        - event-logs
+      summary: Get event log by id
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EventLog"
+        "404":
+          description: Not found
+
+components:
+  schemas:
+    Resource:
+      type: object
+      required:
+        - id
+        - name
+        - url_pattern
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        url_pattern:
+          type: string
+        security_profile_id:
+          type: integer
+          format: int64
+          nullable: true
+        traffic_profile_id:
+          type: integer
+          format: int64
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    ResourceCreate:
+      type: object
+      required:
+        - name
+        - url_pattern
+      properties:
+        name:
+          type: string
+        url_pattern:
+          type: string
+        security_profile_id:
+          type: integer
+          format: int64
+          nullable: true
+        traffic_profile_id:
+          type: integer
+          format: int64
+          nullable: true
+    ResourceUpdate:
+      type: object
+      required:
+        - name
+        - url_pattern
+      properties:
+        name:
+          type: string
+        url_pattern:
+          type: string
+        security_profile_id:
+          type: integer
+          format: int64
+          nullable: true
+        traffic_profile_id:
+          type: integer
+          format: int64
+          nullable: true
+    SecurityProfile:
+      type: object
+      required:
+        - id
+        - name
+        - base_action
+        - log_enabled
+        - is_enabled
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        base_action:
+          type: string
+          enum: [allow, block]
+        log_enabled:
+          type: boolean
+        is_enabled:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    SecurityProfileCreate:
+      type: object
+      required:
+        - name
+        - base_action
+        - log_enabled
+        - is_enabled
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        base_action:
+          type: string
+          enum: [allow, block]
+        log_enabled:
+          type: boolean
+        is_enabled:
+          type: boolean
+    SecurityProfileUpdate:
+      type: object
+      required:
+        - name
+        - base_action
+        - log_enabled
+        - is_enabled
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        base_action:
+          type: string
+          enum: [allow, block]
+        log_enabled:
+          type: boolean
+        is_enabled:
+          type: boolean
+    SecurityRule:
+      type: object
+      required:
+        - id
+        - profile_id
+        - name
+        - priority
+        - rule_type
+        - action
+        - dry_run
+        - is_enabled
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: integer
+          format: int64
+        profile_id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        priority:
+          type: integer
+          format: int32
+        rule_type:
+          type: string
+          enum: [deterministic, ml]
+        action:
+          type: string
+          enum: [allow, block]
+        conditions:
+          $ref: "#/components/schemas/SecurityRuleConditions"
+          nullable: true
+        ml_model_id:
+          type: integer
+          format: int64
+          nullable: true
+        ml_threshold:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 100
+          nullable: true
+        dry_run:
+          type: boolean
+        is_enabled:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    SecurityRuleCreate:
+      type: object
+      required:
+        - profile_id
+        - name
+        - priority
+        - rule_type
+        - action
+        - dry_run
+        - is_enabled
+      properties:
+        profile_id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        priority:
+          type: integer
+          format: int32
+        rule_type:
+          type: string
+          enum: [deterministic, ml]
+        action:
+          type: string
+          enum: [allow, block]
+        conditions:
+          $ref: "#/components/schemas/SecurityRuleConditions"
+          nullable: true
+        ml_model_id:
+          type: integer
+          format: int64
+          nullable: true
+        ml_threshold:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 100
+          nullable: true
+        dry_run:
+          type: boolean
+        is_enabled:
+          type: boolean
+    SecurityRuleUpdate:
+      type: object
+      required:
+        - profile_id
+        - name
+        - priority
+        - rule_type
+        - action
+        - dry_run
+        - is_enabled
+      properties:
+        profile_id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        priority:
+          type: integer
+          format: int32
+        rule_type:
+          type: string
+          enum: [deterministic, ml]
+        action:
+          type: string
+          enum: [allow, block]
+        conditions:
+          $ref: "#/components/schemas/SecurityRuleConditions"
+          nullable: true
+        ml_model_id:
+          type: integer
+          format: int64
+          nullable: true
+        ml_threshold:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 100
+          nullable: true
+        dry_run:
+          type: boolean
+        is_enabled:
+          type: boolean
+    TrafficProfile:
+      type: object
+      required:
+        - id
+        - name
+        - is_enabled
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        is_enabled:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    TrafficProfileCreate:
+      type: object
+      required:
+        - name
+        - is_enabled
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        is_enabled:
+          type: boolean
+    TrafficProfileUpdate:
+      type: object
+      required:
+        - name
+        - is_enabled
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        is_enabled:
+          type: boolean
+    TrafficRule:
+      type: object
+      required:
+        - id
+        - profile_id
+        - name
+        - priority
+        - dry_run
+        - match_all
+        - requests_limit
+        - period_seconds
+        - is_enabled
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: integer
+          format: int64
+        profile_id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        priority:
+          type: integer
+          format: int32
+        dry_run:
+          type: boolean
+        match_all:
+          type: boolean
+        requests_limit:
+          type: integer
+          format: int32
+        period_seconds:
+          type: integer
+          format: int32
+        conditions:
+          $ref: "#/components/schemas/SecurityRuleConditions"
+          nullable: true
+        is_enabled:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    TrafficRuleCreate:
+      type: object
+      required:
+        - profile_id
+        - name
+        - priority
+        - dry_run
+        - match_all
+        - requests_limit
+        - period_seconds
+        - is_enabled
+      properties:
+        profile_id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        priority:
+          type: integer
+          format: int32
+        dry_run:
+          type: boolean
+        match_all:
+          type: boolean
+        requests_limit:
+          type: integer
+          format: int32
+        period_seconds:
+          type: integer
+          format: int32
+        conditions:
+          $ref: "#/components/schemas/SecurityRuleConditions"
+          nullable: true
+        is_enabled:
+          type: boolean
+    TrafficRuleUpdate:
+      type: object
+      required:
+        - profile_id
+        - name
+        - priority
+        - dry_run
+        - match_all
+        - requests_limit
+        - period_seconds
+        - is_enabled
+      properties:
+        profile_id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        priority:
+          type: integer
+          format: int32
+        dry_run:
+          type: boolean
+        match_all:
+          type: boolean
+        requests_limit:
+          type: integer
+          format: int32
+        period_seconds:
+          type: integer
+          format: int32
+        conditions:
+          $ref: "#/components/schemas/SecurityRuleConditions"
+          nullable: true
+        is_enabled:
+          type: boolean
+    SecurityHeaderCondition:
+      type: object
+      required:
+        - name
+        - value_regex
+      properties:
+        name:
+          type: string
+        value_regex:
+          type: array
+          items:
+            type: string
+    SecurityRuleConditions:
+      type: object
+      description: |
+        Условия для security rules. Блоки разных типов объединяются по AND.
+        Внутри одного блока значения объединяются по OR.
+      properties:
+        source_ip_cidr:
+          type: array
+          items:
+            type: string
+          description: CIDR диапазоны клиентских IP
+        uri_regex:
+          type: array
+          items:
+            type: string
+          description: Регулярные выражения для HTTP URI
+        host_regex:
+          type: array
+          items:
+            type: string
+          description: Регулярные выражения для host
+        method_regex:
+          type: array
+          items:
+            type: string
+          description: Регулярные выражения для HTTP метода
+        headers:
+          type: array
+          items:
+            $ref: "#/components/schemas/SecurityHeaderCondition"
+          description: Условия по имени заголовка и regexp значения
+    RuleConditions:
+      type: object
+      description: |
+        Условия для правил безопасности и лимитов трафика. Все блоки объединяются по AND.
+        Внутри каждого блока значения объединяются по OR.
+      properties:
+        methods:
+          type: array
+          items:
+            type: string
+          description: HTTP методы (GET, POST и т.п.)
+        path_regex:
+          type: array
+          items:
+            type: string
+          description: Регулярные выражения для пути
+        path_prefix:
+          type: array
+          items:
+            type: string
+          description: Префиксы пути
+        query_regex:
+          type: array
+          items:
+            type: string
+          description: Регулярные выражения для query-string
+        hosts:
+          type: array
+          items:
+            type: string
+          description: Точные значения host
+        host_regex:
+          type: array
+          items:
+            type: string
+          description: Регулярные выражения для host
+        headers:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          description: Карта header -> список допустимых значений
+        headers_regex:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          description: Карта header -> список regex для значения
+        ip_cidr:
+          type: array
+          items:
+            type: string
+          description: CIDR-диапазоны клиентских IP
+        user_agent_regex:
+          type: array
+          items:
+            type: string
+          description: Регулярные выражения для User-Agent
+    MLModel:
+      type: object
+      required:
+        - id
+        - name
+        - model_data
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        model_data:
+          type: string
+          format: byte
+    MLModelCreate:
+      type: object
+      required:
+        - name
+        - model_data
+      properties:
+        name:
+          type: string
+        model_data:
+          type: string
+          format: byte
+    MLModelUpdate:
+      type: object
+      required:
+        - name
+        - model_data
+      properties:
+        name:
+          type: string
+        model_data:
+          type: string
+          format: byte
+    RequestLog:
+      type: object
+      required:
+        - id
+        - occurred_at
+        - client_ip
+        - method
+        - path
+        - status_code
+        - action
+      properties:
+        id:
+          type: integer
+          format: int64
+        resource_id:
+          type: integer
+          format: int64
+          nullable: true
+        occurred_at:
+          type: string
+          format: date-time
+        client_ip:
+          type: string
+        method:
+          type: string
+        path:
+          type: string
+        status_code:
+          type: integer
+          format: int32
+        action:
+          type: string
+        rule_id:
+          type: integer
+          format: int64
+        profile_id:
+          type: integer
+          format: int64
+        user_agent:
+          type: string
+        country:
+          type: string
+        latency_ms:
+          type: integer
+          format: int32
+        request_id:
+          type: string
+        metadata:
+          type: object
+          additionalProperties: true
+          nullable: true
+        host:
+          type: string
+        scheme:
+          type: string
+        protocol:
+          type: string
+        authority:
+          type: string
+        query:
+          type: string
+        source_port:
+          type: integer
+          format: int32
+        destination_ip:
+          type: string
+        destination_port:
+          type: integer
+          format: int32
+        source_principal:
+          type: string
+        source_service:
+          type: string
+        source_labels:
+          type: object
+          additionalProperties: true
+          nullable: true
+        destination_service:
+          type: string
+        destination_labels:
+          type: object
+          additionalProperties: true
+          nullable: true
+        request_http_id:
+          type: string
+        fragment:
+          type: string
+        request_headers:
+          type: object
+          additionalProperties: true
+          nullable: true
+        request_body_size:
+          type: integer
+          format: int32
+        request_body:
+          type: string
+        context_extensions:
+          type: object
+          additionalProperties: true
+          nullable: true
+        metadata_context:
+          type: object
+          additionalProperties: true
+          nullable: true
+        route_metadata_context:
+          type: object
+          additionalProperties: true
+          nullable: true
+    EventLog:
+      type: object
+      required:
+        - id
+        - resource_id
+        - occurred_at
+        - event_type
+        - severity
+        - message
+      properties:
+        id:
+          type: integer
+          format: int64
+        resource_id:
+          type: integer
+          format: int64
+        occurred_at:
+          type: string
+          format: date-time
+        event_type:
+          type: string
+        severity:
+          type: string
+        message:
+          type: string
+        rule_id:
+          type: integer
+          format: int64
+        profile_id:
+          type: integer
+          format: int64
+        metadata:
+          type: object
+          additionalProperties: true
+          nullable: true

@@ -1,0 +1,16 @@
+replicaCount: 1
+
+config: "files/envoy.yaml"
+
+image:
+  repository: envoyproxy/envoy
+  tag: v1.30-latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 10000
+
+envoy:
+  port: 10000

@@ -1,0 +1,5 @@
+# Helm dependencies (downloaded charts)
+**/charts/
+*.tgz
+*.tar.gz
+Chart.lock

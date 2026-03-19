@@ -1,0 +1,15 @@
+**/.DS_Store
+.git
+.gitlab-ci.yml
+.idea
+.bash_history
+.gitignore
+.dockerignore
+.docker-sync
+docker-compose*
+git-hooks
+vendor
+integration-tests
+tools
+.gitlab-ci
+README.md

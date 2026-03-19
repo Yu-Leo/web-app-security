@@ -1,0 +1,50 @@
+# PostgreSQL Configuration
+# Simple, maintainable setup using Bitnami chart
+
+# Deploy to storage namespace for isolation
+namespace: default
+
+# Bitnami PostgreSQL configuration
+postgresql:
+  image:
+    repository: bitnamilegacy/postgresql
+
+  # Authentication
+  auth:
+    database: "master"
+    username: "user"
+    # Password is auto-generated and stored in Vault
+    existingSecret: "postgresql"
+    secretKeys:
+      adminPasswordKey: "postgres-password"
+      userPasswordKey: "password"
+
+  # Basic resource allocation
+  primary:
+    resources:
+      requests:
+        memory: 1Gi
+        cpu: 500m
+      limits:
+        memory: 2Gi
+        cpu: 1
+
+    # Storage
+    persistence:
+      enabled: true
+      size: 1Gi
+      storageClass: "standard"
+
+  # Service configuration
+  service:
+    type: ClusterIP
+    port: 5432
+
+  # Disable metrics to keep it simple
+  metrics:
+    enabled: false
+
+# Simple backup configuration (optional)
+backup:
+  enabled: false # Enable when needed
+  schedule: "0 2 * * *" # Daily at 2am

@@ -1,0 +1,124 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  migrations:
+    image: ghcr.io/kukymbr/goose-docker:3.24.2
+    environment:
+      GOOSE_DRIVER: postgres
+      GOOSE_DBSTRING: "host=postgres port=5432 user=postgres password=postgres dbname=postgres sslmode=disable"
+    volumes:
+      - ./backend-api/db/migrations:/migrations:ro
+    command: ["up"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  backend-api:
+    build:
+      context: ./backend-api
+    environment:
+      WAS_ENV: local
+      WAS_HTTPSERVER_HOST: 0.0.0.0
+      WAS_HTTPSERVER_PORT: "8001"
+      WAS_GRPCSERVER_HOST: 0.0.0.0
+      WAS_GRPCSERVER_PORT: "8000"
+      WAS_POSTGRES_MASTER: "host=postgres port=5432 user=postgres password=postgres dbname=postgres sslmode=disable"
+    ports:
+      - "8001:8001"
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrations:
+        condition: service_completed_successfully
+
+  service-echo:
+    image: ealen/echo-server:0.9.2
+    ports:
+      - "8081:80"
+
+  envoy:
+    build:
+      context: ./infrastructure/envoy
+    ports:
+      - "10000:10000"
+    depends_on:
+      backend-api:
+        condition: service_started
+      service-echo:
+        condition: service_started
+
+  control-panel:
+    build:
+      context: ./control-panel
+    ports:
+      - "8080:80"
+    depends_on:
+      backend-api:
+        condition: service_started
+
+  victoriametrics:
+    image: victoriametrics/victoria-metrics:v1.120.0
+    command:
+      - "--storageDataPath=/victoria-metrics-data"
+    ports:
+      - "8428:8428"
+    volumes:
+      - victoria_metrics_data:/victoria-metrics-data
+
+  vmagent:
+    image: victoriametrics/vmagent:v1.120.0
+    command:
+      - "--promscrape.config=/etc/vmagent/prometheus.yml"
+      - "--remoteWrite.url=http://victoriametrics:8428/api/v1/write"
+    ports:
+      - "8429:8429"
+    volumes:
+      - ./infrastructure/vmagent/files/prometheus.yml:/etc/vmagent/prometheus.yml:ro
+    depends_on:
+      backend-api:
+        condition: service_started
+      victoriametrics:
+        condition: service_started
+
+  grafana:
+    image: grafana/grafana:11.6.0
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./infrastructure/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      victoriametrics:
+        condition: service_started
+
+  locust:
+    image: locustio/locust:2.31.6
+    volumes:
+      - ./locust:/mnt/locust:ro
+    entrypoint: ["/bin/sh", "/mnt/locust/run-locust.sh"]
+    ports:
+      - "8089:8089"
+    depends_on:
+      envoy:
+        condition: service_started
+
+volumes:
+  postgres_data:
+  victoria_metrics_data:
+  grafana_data:
